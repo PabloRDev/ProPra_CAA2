@@ -9,7 +9,7 @@
 //////////////////////////////////
 
 // Parse a tDate from string information
-void date_parse(tDate* date, const char* s_date) {
+void date_parse(tDate *date, const char *s_date) {
     // Check output data
     assert(date != NULL);
 
@@ -22,14 +22,14 @@ void date_parse(tDate* date, const char* s_date) {
 }
 
 // Copy the data from the source to destination
-void date_cpy(tDate* destination, tDate source) {
+void date_cpy(tDate *destination, tDate source) {
     destination->day = source.day;
     destination->month = source.month;
     destination->year = source.year;
 }
 
 // Copy the data from the source to destination
-void person_cpy(tPerson* destination, tPerson source) {
+void person_cpy(tPerson *destination, tPerson source) {
     // Copy identity document data
     strncpy(destination->document, source.document, MAX_DOCUMENT + 1);
 
@@ -56,22 +56,21 @@ void person_cpy(tPerson* destination, tPerson source) {
 }
 
 // Get person data using a string
-void person_get(tPerson data, char* buffer)
-{
+void person_get(tPerson data, char *buffer) {
     // Print all data at same time
-    sprintf(buffer,"%s;%s;%s;%s;%s;%s;%s;%02d/%02d/%04d",
-        data.document,
-        data.name,
-        data.surname,
-        data.phone,
-        data.email,
-        data.address,
-        data.cp,
-        data.birthday.day, data.birthday.month, data.birthday.year);
+    sprintf(buffer, "%s;%s;%s;%s;%s;%s;%s;%02d/%02d/%04d",
+            data.document,
+            data.name,
+            data.surname,
+            data.phone,
+            data.email,
+            data.address,
+            data.cp,
+            data.birthday.day, data.birthday.month, data.birthday.year);
 }
 
 // Initialize the people data
-void people_init(tPeople* data) {
+void people_init(tPeople *data) {
     // Check input/output data
     assert(data != NULL);
 
@@ -79,14 +78,13 @@ void people_init(tPeople* data) {
 }
 
 // Get person data of position index using a string
-void people_get(tPeople data, int index, char* buffer)
-{
+void people_get(tPeople data, int index, char *buffer) {
     assert(index >= 0 && index < data.count);
     person_get(data.elems[index], buffer);
 }
 
 // Return the position of a person with provided document. -1 if it does not exist
-int people_find(tPeople data, const char* document) {
+int people_find(tPeople data, const char *document) {
     int i = 0;
     while (i < data.count) {
         if (strcmp(data.elems[i].document, document) == 0) {
@@ -123,7 +121,7 @@ void subscriptions_print(tSubscriptions data) {
 //////////////////////////////////////
 
 // Parse input from CSVEntry
-void person_parse(tPerson* data, tCSVEntry entry) {
+void person_parse(tPerson *data, tCSVEntry entry) {
     // Check input data
     assert(data != NULL);
 
@@ -161,7 +159,7 @@ void person_parse(tPerson* data, tCSVEntry entry) {
 }
 
 // Add a new person to people data
-void people_add(tPeople* data, tPerson person) {
+void people_add(tPeople *data, tPerson person) {
     // Check input data
     assert(data != NULL);
 
@@ -177,7 +175,7 @@ void people_add(tPeople* data, tPerson person) {
 }
 
 // Parse input from CSVEntry
-void subscription_parse(tSubscription* data, tCSVEntry entry) {
+void subscription_parse(tSubscription *data, tCSVEntry entry) {
     // Check input data
     assert(data != NULL);
 
@@ -216,7 +214,7 @@ void subscription_parse(tSubscription* data, tCSVEntry entry) {
 }
 
 // Copy the data from the source to destination (individual data)
-void subscription_cpy(tSubscription* destination, tSubscription source) {
+void subscription_cpy(tSubscription *destination, tSubscription source) {
     // Copy subscription's id data
     destination->id = source.id;
 
@@ -240,29 +238,28 @@ void subscription_cpy(tSubscription* destination, tSubscription source) {
 }
 
 // Get subscription data using a string
-void subscription_get(tSubscription data, char* buffer)
-{
+void subscription_get(tSubscription data, char *buffer) {
     // Print all data at same time
-    sprintf(buffer,"%d;%s;%02d/%02d/%04d;%02d/%02d/%04d;%s;%g;%d",
-        data.id,
-        data.document,
-        data.start_date.day, data.start_date.month, data.start_date.year,
-        data.end_date.day, data.end_date.month, data.end_date.year,
-        data.plan,
-        data.price,
-        data.numDevices);
+    sprintf(buffer, "%d;%s;%02d/%02d/%04d;%02d/%02d/%04d;%s;%g;%d",
+            data.id,
+            data.document,
+            data.start_date.day, data.start_date.month, data.start_date.year,
+            data.end_date.day, data.end_date.month, data.end_date.year,
+            data.plan,
+            data.price,
+            data.numDevices);
 }
 
-// Initialize subscriptions data
-void subscriptions_init(tSubscriptions* data) {
-    // Check input data
-    assert(data != NULL);
-    // Ex 2
-    data->count = 0;
+// 2a - Initialize subscriptions data
+void subscriptions_init(tSubscriptions *subs) {
+    // Empty array
+    assert(subs != NULL);
+    subs->count = 0;
+    subs->elems = NULL;
 }
 
 // Add a new subscription
-void subscriptions_add(tSubscriptions* data, tPeople people, tSubscription subscription) {
+void subscriptions_add(tSubscriptions *data, tPeople people, tSubscription subscription) {
     // Check input data
     assert(data != NULL);
 
@@ -271,7 +268,7 @@ void subscriptions_add(tSubscriptions* data, tPeople people, tSubscription subsc
         // Check person exists
         if (people_find(people, subscription.document) >= 0) {
             // Copy the data to the new position
-			// Ex 2
+            // Ex 2
 
             // Increase the number of elements
             data->count++;
@@ -280,13 +277,12 @@ void subscriptions_add(tSubscriptions* data, tPeople people, tSubscription subsc
 }
 
 // Remove a subscription
-void subscriptions_del(tSubscriptions* data, int id) {
+void subscriptions_del(tSubscriptions *data, int id) {
     // Ex2
 }
 
 // Get subscription data of position index using a string
-void subscriptions_get(tSubscriptions data, int index, char* buffer)
-{
+void subscriptions_get(tSubscriptions data, int index, char *buffer) {
     assert(index >= 0 && index < data.count);
     subscription_get(data.elems[index], buffer);
 }
@@ -304,7 +300,12 @@ int subscriptions_find(tSubscriptions data, int id) {
     return -1;
 }
 
-// Remove all elements 
-void subscriptions_free(tSubscriptions* data) { 
-    // Ex2
+// 2d - Remove all elements
+void subscriptions_free(tSubscriptions *data) {
+    // Free memory allocated
+    assert(data != NULL);
+    if (data->elems != NULL) {
+        free(data->elems);
+        data->elems = NULL;
+    }
 }

@@ -8,8 +8,6 @@
 #define MAX_CP 5
 #define MAX_DATE 10
 #define MAX_PEOPLE 100
-// Ex 1 and 2: MAX_SUBSCRIPTIONS should not be used in the student submitted code
-#define MAX_SUBSCRIPTIONS 50
 
 typedef struct _tDate {
     int day;
@@ -33,7 +31,6 @@ typedef struct _tPeople {
     int count;
 } tPeople;
 
-
 typedef struct _tSubscription {
     int id;
     char document[MAX_DOCUMENT + 1];
@@ -46,7 +43,7 @@ typedef struct _tSubscription {
 
 // Ex 1 and 2: change this to dynamic memory
 typedef struct _tSubscriptions {
-    tSubscription elems[MAX_SUBSCRIPTIONS];
+    tSubscription *elems;
     int count;
 } tSubscriptions;
 
@@ -55,25 +52,25 @@ typedef struct _tSubscriptions {
 //////////////////////////////////
 
 // Parse a tDate from string information
-void date_parse(tDate* date, const char* s_date);
+void date_parse(tDate *date, const char *s_date);
 
 // Copy the data from the source to destination
-void date_cpy(tDate* destination, tDate source);
+void date_cpy(tDate *destination, tDate source);
 
 // Copy the data from the source to destination
-void person_cpy(tPerson* destination, tPerson source);
+void person_cpy(tPerson *destination, tPerson source);
 
 // Get person data using a string
-void person_get(tPerson data, char* buffer);
+void person_get(tPerson data, char *buffer);
 
 // Initialize people data
-void people_init(tPeople* data);
+void people_init(tPeople *data);
 
 // Get person data of position index using a string
-void people_get(tPeople data, int index, char* buffer);
+void people_get(tPeople data, int index, char *buffer);
 
 // Return the position of a person with provided document. -1 if it does not exist
-int people_find(tPeople data, const char* document);
+int people_find(tPeople data, const char *document);
 
 // Print people data
 void people_print(tPeople data);
@@ -86,34 +83,34 @@ void subscriptions_print(tSubscriptions data);
 /////////////////////////////////////
 
 // Parse input from CSVEntry
-void person_parse(tPerson* data, tCSVEntry entry);
+void person_parse(tPerson *data, tCSVEntry entry);
 
 // Add a new person to people data
-void people_add(tPeople* data, tPerson person);
+void people_add(tPeople *data, tPerson person);
 
 // Parse input from CSVEntry
-void subscription_parse(tSubscription* data, tCSVEntry entry);
+void subscription_parse(tSubscription *data, tCSVEntry entry);
 
 // Copy the data from the source to destination (individual data)
-void subscription_cpy(tSubscription* destination, tSubscription source);
+void subscription_cpy(tSubscription *destination, tSubscription source);
 
 // Get subscription data using a string
-void subscription_get(tSubscription data, char* buffer);
+void subscription_get(tSubscription data, char *buffer);
 
 // Initialize subscriptions data
-void subscriptions_init(tSubscriptions* data);
+void subscriptions_init(tSubscriptions *subs);
 
 // Add a new subscription
-void subscriptions_add(tSubscriptions* data, tPeople people, tSubscription subscription);
+void subscriptions_add(tSubscriptions *data, tPeople people, tSubscription subscription);
 
 // Remove a subscription
-void subscriptions_del(tSubscriptions* data, int id);
+void subscriptions_del(tSubscriptions *data, int id);
 
 // Remove all elements
-void subscriptions_free(tSubscriptions* data);
+void subscriptions_free(tSubscriptions *data);
 
 // Get subscription data of position index using a string
-void subscriptions_get(tSubscriptions data, int index, char* buffer);
+void subscriptions_get(tSubscriptions data, int index, char *buffer);
 
 // Returns the position of a subscription looking for id's subscription. -1 if it does not exist
 int subscriptions_find(tSubscriptions data, int id);
