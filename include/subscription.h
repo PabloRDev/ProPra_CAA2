@@ -8,6 +8,7 @@
 #define MAX_CP 5
 #define MAX_DATE 10
 #define MAX_PEOPLE 100
+#define REALLOCATION_INTERVAL 10
 
 typedef struct _tDate {
     int day;

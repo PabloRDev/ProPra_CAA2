@@ -258,7 +258,7 @@ void subscriptions_init(tSubscriptions *subs) {
     subs->elems = NULL;
 }
 
-// Add a new subscription
+// 2b - Add a new subscription
 void subscriptions_add(tSubscriptions *data, tPeople people, tSubscription subscription) {
     // Check input data
     assert(data != NULL);
@@ -267,10 +267,20 @@ void subscriptions_add(tSubscriptions *data, tPeople people, tSubscription subsc
     if (subscriptions_find(*data, subscription.id) < 0) {
         // Check person exists
         if (people_find(people, subscription.document) >= 0) {
-            // Copy the data to the new position
-            // Ex 2
+            assert(data != NULL);
 
-            // Increase the number of elements
+            if (data->count % REALLOCATION_INTERVAL == 0) { // Check if it's time to reallocate more memory
+                // Temporary pointer protecting original
+                tSubscription *temp = realloc(data->elems, (data->count +  REALLOCATION_INTERVAL) * sizeof(tSubscription));
+                if (temp != NULL) {
+                    data->elems = temp;
+                } else {
+                    fprintf(stderr, "Error: Memory allocation failed!\n"); // Leaking memory error
+                    return;
+                }
+            }
+
+            data->elems[data->count] = subscription;
             data->count++;
         }
     }
