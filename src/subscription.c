@@ -267,11 +267,11 @@ void subscriptions_add(tSubscriptions *data, tPeople people, tSubscription subsc
     if (subscriptions_find(*data, subscription.id) < 0) {
         // Check person exists
         if (people_find(people, subscription.document) >= 0) {
-            assert(data != NULL);
-
-            if (data->count % REALLOCATION_INTERVAL == 0) { // Check if it's time to reallocate more memory
+            if (data->count % REALLOCATION_INTERVAL == 0) {
+                // Check if it's time to reallocate more memory
                 // Temporary pointer protecting original
-                tSubscription *temp = realloc(data->elems, (data->count +  REALLOCATION_INTERVAL) * sizeof(tSubscription));
+                tSubscription *temp = realloc(data->elems,
+                                              (data->count + REALLOCATION_INTERVAL) * sizeof(tSubscription));
                 if (temp != NULL) {
                     data->elems = temp;
                 } else {
@@ -286,9 +286,20 @@ void subscriptions_add(tSubscriptions *data, tPeople people, tSubscription subsc
     }
 }
 
-// Remove a subscription
+// 2c - Remove a subscription
 void subscriptions_del(tSubscriptions *data, int id) {
-    // Ex2
+    // Check input data
+    assert(data != NULL);
+    const int index = subscriptions_find(*data, id);
+    // If subscription exists
+    if (index >= 0) {
+        for (int i = index; i < data->count - 1; i++) {
+            data->elems[i] = data->elems[i + 1];
+            // Next subscriptions one position to the left, overwriting the target subscription
+        }
+
+        data->count--;
+    }
 }
 
 // Get subscription data of position index using a string
